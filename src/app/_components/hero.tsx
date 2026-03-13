@@ -45,7 +45,7 @@ export function HeroSection() {
             </h1>
 
             <p className="mt-6 max-w-lg text-lg leading-relaxed text-gray-300">
-              Grace Cancer Foundation is registering on India&apos;s{" "}
+              Grace Cancer Foundation is listing on India&apos;s{" "}
               <strong className="text-white">Social Stock Exchange (SSE)</strong>{" "}
               — a SEBI-regulated platform that enables organisations to raise
               capital for social causes with full transparency and

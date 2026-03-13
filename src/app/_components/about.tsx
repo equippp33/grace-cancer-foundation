@@ -117,7 +117,7 @@ export function AboutSection() {
                   <p className="text-sm text-gray-600">{item.text}</p>
                 </div>
               ))}
-              {/* 2026 — SSE Registration (in progress) */}
+              {/* 2026 — SSE Listing (in progress) */}
               <div className="flex items-start gap-3">
                 <span className="relative shrink-0 overflow-hidden rounded-lg bg-gradient-to-r from-[var(--color-rose-primary)] to-[var(--color-rose-dark)] px-3 py-1 text-xs font-bold text-white">
                   2026
@@ -125,7 +125,7 @@ export function AboutSection() {
                 </span>
                 <div className="flex items-center gap-2">
                   <p className="text-sm font-semibold text-[var(--color-rose-primary)]">
-                    Registration under Social Stock Exchange (SSE)
+                    Listing on Social Stock Exchange (SSE)
                   </p>
                   <span className="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-700">
                     <span className="relative flex h-1.5 w-1.5">

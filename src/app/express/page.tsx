@@ -161,7 +161,7 @@ export default function ExpressPage() {
           Express Your Support
         </h1>
         <p className="mb-8 max-w-md text-center text-sm leading-relaxed text-gray-500">
-          Grace Cancer Foundation is registering under SEBI&apos;s Social Stock
+          Grace Cancer Foundation is listing on SEBI&apos;s Social Stock
           Exchange. Pledge your contribution for a cancer-free world.
         </p>
 
