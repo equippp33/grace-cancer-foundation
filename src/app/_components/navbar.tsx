@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -8,9 +9,6 @@ const navLinks = [
   { label: "About", href: "#about" },
   { label: "Our Activities", href: "#activities" },
   { label: "Impact", href: "#impact" },
-  { label: "Cancer Run", href: "#cancer-run" },
-  { label: "Volunteer", href: "#volunteer" },
-  { label: "Contact", href: "#contact" },
 ];
 
 export function Navbar() {
@@ -20,18 +18,15 @@ export function Navbar() {
     <nav className="fixed top-0 right-0 left-0 z-50 bg-white/95 shadow-sm backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[var(--color-rose-primary)] to-[var(--color-rose-dark)]">
-            <span className="text-lg font-bold text-white">G</span>
-          </div>
-          <div>
-            <span className="text-lg font-bold text-[var(--color-navy)]">
-              Grace Cancer
-            </span>
-            <span className="block text-[10px] tracking-widest text-[var(--color-rose-primary)] uppercase">
-              Foundation
-            </span>
-          </div>
+        <Link href="/">
+          <Image
+            src="/website-logo-300x92.png"
+            alt="Grace Cancer Foundation"
+            width={180}
+            height={55}
+            className="h-10 w-auto sm:h-12"
+            priority
+          />
         </Link>
 
         {/* Desktop Links */}

@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { api } from "@/trpc/react";
 
 export default function ExpressPage() {
@@ -12,8 +13,20 @@ export default function ExpressPage() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
   const [chatOpen, setChatOpen] = useState(true);
+  const [feedItems, setFeedItems] = useState<Array<{ id: number; name: string; amount: number; createdAt: Date; animKey: number }>>([]);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const feedIndexRef = useRef(0);
+  const animKeyRef = useRef(0);
+  const burstDoneRef = useRef(false);
 
   const utils = api.useUtils();
+
+  const { data: expressions } = api.expression.getAll.useQuery(undefined, {
+    refetchInterval: 5000,
+  });
+
+  const expressionsRef = useRef(expressions);
+  expressionsRef.current = expressions;
 
   const createExpression = api.expression.create.useMutation({
     onSuccess: () => {
@@ -28,7 +41,53 @@ export default function ExpressPage() {
     },
   });
 
-  const { data: expressions } = api.expression.getAll.useQuery();
+  // Continuously feed expressions one by one, looping forever
+  useEffect(() => {
+    if (!expressions?.length) return;
+
+    const addNext = () => {
+      const list = expressionsRef.current;
+      if (!list?.length) return;
+
+      const idx = feedIndexRef.current % list.length;
+      const exp = list[idx]!;
+      animKeyRef.current += 1;
+
+      setFeedItems((prev) => {
+        const next = [
+          ...prev,
+          { ...exp, createdAt: new Date(exp.createdAt), animKey: animKeyRef.current },
+        ];
+        if (next.length > 50) return next.slice(-50);
+        return next;
+      });
+
+      feedIndexRef.current += 1;
+    };
+
+    // Initial burst — show a few quickly on first load
+    if (!burstDoneRef.current) {
+      burstDoneRef.current = true;
+      const burst = Math.min(expressions.length, 5);
+      for (let i = 0; i < burst; i++) {
+        setTimeout(() => addNext(), i * 200);
+      }
+    }
+
+    // Keep adding one every 3 seconds forever
+    const interval = setInterval(addNext, 3000);
+    return () => clearInterval(interval);
+  }, [expressions]);
+
+  // Auto-scroll to bottom when new items appear
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({
+        top: scrollRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [feedItems.length]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,15 +116,15 @@ export default function ExpressPage() {
       {/* Header */}
       <header className="shrink-0 border-b border-gray-200 bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-[var(--color-rose-primary)] to-[var(--color-rose-dark)]">
-              <span className="text-sm font-bold text-white">G</span>
-            </div>
-            <div className="leading-tight">
-              <span className="text-sm font-bold text-[var(--color-navy)]">
-                Grace Cancer Foundation
-              </span>
-            </div>
+          <Link href="/">
+            <Image
+              src="/website-logo-300x92.png"
+              alt="Grace Cancer Foundation"
+              width={180}
+              height={55}
+              className="h-9 w-auto sm:h-10"
+              priority
+            />
           </Link>
           <Link
             href="/"
@@ -259,8 +318,8 @@ export default function ExpressPage() {
               </button>
             </div>
 
-            {/* Body */}
-            <div className="flex-1 overflow-y-auto">
+            {/* Body — live feed style */}
+            <div ref={scrollRef} className="flex-1 overflow-y-auto">
               {!expressions?.length ? (
                 <div className="flex h-full flex-col items-center justify-center p-6 text-center">
                   <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-gray-100">
@@ -272,14 +331,14 @@ export default function ExpressPage() {
                   <p className="text-xs text-gray-300">Be the first to express!</p>
                 </div>
               ) : (
-                <div>
-                  {expressions.map((exp, i) => (
+                <div className="flex flex-col justify-end min-h-full">
+                  {feedItems.map((exp, i) => (
                     <div
-                      key={exp.id}
-                      className="flex items-center gap-3 border-b border-gray-50 px-4 py-3 transition-colors hover:bg-gray-50"
+                      key={exp.animKey}
+                      className="animate-slide-in-up flex items-center gap-3 px-4 py-2.5"
                     >
                       <div
-                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-xs font-bold text-white"
+                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white"
                         style={{
                           backgroundColor: [
                             "var(--color-rose-primary)",
@@ -297,20 +356,21 @@ export default function ExpressPage() {
                           .toUpperCase()}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-medium text-[var(--color-navy)]">
-                          {exp.name}
-                        </p>
-                        <p className="text-[11px] text-gray-400">
-                          {new Date(exp.createdAt).toLocaleDateString("en-IN", {
-                            day: "numeric",
-                            month: "short",
-                            year: "numeric",
-                          })}
+                        <div className="flex items-baseline gap-2">
+                          <p className="truncate text-sm font-semibold text-[var(--color-navy)]">
+                            {exp.name}
+                          </p>
+                          <span className="shrink-0 text-[10px] text-gray-300">
+                            {getTimeAgo(exp.createdAt)}
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-500">
+                          expressed{" "}
+                          <span className="font-bold text-emerald-600">
+                            {formatCurrency(exp.amount)}
+                          </span>
                         </p>
                       </div>
-                      <span className="shrink-0 rounded-lg bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-600">
-                        {formatCurrency(exp.amount)}
-                      </span>
                     </div>
                   ))}
                 </div>
@@ -339,4 +399,22 @@ export default function ExpressPage() {
       </div>
     </div>
   );
+}
+
+function getTimeAgo(date: Date): string {
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffSec = Math.floor(diffMs / 1000);
+
+  if (diffSec < 60) return "just now";
+  const diffMin = Math.floor(diffSec / 60);
+  if (diffMin < 60) return `${diffMin}m ago`;
+  const diffHr = Math.floor(diffMin / 60);
+  if (diffHr < 24) return `${diffHr}h ago`;
+  const diffDay = Math.floor(diffHr / 24);
+  if (diffDay < 7) return `${diffDay}d ago`;
+  return date.toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "short",
+  });
 }

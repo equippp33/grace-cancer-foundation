@@ -2,15 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const stats = [
-  { label: "Lives Reached", value: 500000, suffix: "+", prefix: "", color: "var(--color-rose-primary)" },
-  { label: "Volunteers", value: 10000, suffix: "+", prefix: "", color: "var(--color-green-accent)" },
-  { label: "Events Conducted", value: 850, suffix: "+", prefix: "", color: "var(--color-yellow-accent)" },
-  { label: "Cancers Detected", value: 5000, suffix: "+", prefix: "", color: "var(--color-blue-deep)" },
-  { label: "Villages Covered", value: 2000, suffix: "+", prefix: "", color: "var(--color-rose-primary)" },
-  { label: "Countries", value: 130, suffix: "+", prefix: "", color: "var(--color-green-accent)" },
-];
-
 function useCountUp(target: number, duration = 2000) {
   const [count, setCount] = useState(0);
   const [started, setStarted] = useState(false);
@@ -51,10 +42,47 @@ function useCountUp(target: number, duration = 2000) {
 }
 
 function formatNumber(n: number) {
-  if (n >= 100000) return (n / 1000).toFixed(0) + "K";
-  if (n >= 10000) return (n / 1000).toFixed(0) + "K";
+  if (n >= 1000) return (n / 1000).toFixed(0) + "K";
   return n.toLocaleString();
 }
+
+const achievements = [
+  {
+    title: "Guinness World Record",
+    desc: "Largest breast cancer awareness lesson — a landmark achievement in cancer education and screening",
+  },
+  {
+    title: "Limca Book of Records 2016",
+    desc: "Largest Cervical Cancer Screening Campaign — 15 cases detected and referred for treatment",
+  },
+  {
+    title: "Largest Oral Cancer Screening 2019",
+    desc: "Massive oral cancer screening campaign — 30 cases detected and treated early",
+  },
+  {
+    title: "ISO Certified Organisation",
+    desc: "Certified for quality management and operational excellence in healthcare delivery",
+  },
+  {
+    title: "Cancer Run 2018",
+    desc: "4 buses, 5 continents, 10 nations — a global movement for cancer awareness",
+  },
+  {
+    title: "Largest Global Cancer Run 2019",
+    desc: "25,000+ participants across the globe — uniting communities against cancer",
+  },
+  {
+    title: "Guinness World Records Case Study",
+    desc: "Featured as an official case study by Guinness World Records for impact and scale",
+  },
+];
+
+const quickStats = [
+  { label: "Continents", value: 5, suffix: "", color: "var(--color-rose-primary)" },
+  { label: "Nations", value: 10, suffix: "+", color: "var(--color-green-accent)" },
+  { label: "Participants (2019 Run)", value: 25000, suffix: "+", color: "var(--color-yellow-accent)" },
+  { label: "Cases Detected", value: 45, suffix: "+", color: "var(--color-blue-deep)" },
+];
 
 export function ImpactSection() {
   return (
@@ -67,44 +95,46 @@ export function ImpactSection() {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-16 text-center">
           <span className="text-sm font-semibold tracking-widest text-[var(--color-rose-primary)] uppercase">
-            Our Reach
+            Recognition &amp; Impact
           </span>
           <h2 className="mt-3 font-serif text-4xl font-bold text-[var(--color-navy)] sm:text-5xl">
-            The Impact We&apos;ve Made
+            Our Achievements
           </h2>
           <div className="mx-auto mt-4 h-1 w-20 rounded-full bg-gradient-to-r from-[var(--color-rose-primary)] to-[var(--color-yellow-accent)]" />
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-gray-500">
+            From Guinness World Records to nationwide screening campaigns, our
+            work has been recognised at the highest levels.
+          </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-6">
-          {stats.map((stat) => (
-            <ImpactCard key={stat.label} stat={stat} />
+        {/* Stats row */}
+        <div className="mb-16 grid grid-cols-2 gap-6 md:grid-cols-4">
+          {quickStats.map((stat) => (
+            <StatCard key={stat.label} stat={stat} />
           ))}
         </div>
 
-        {/* Donation tiers */}
-        <div className="mt-20">
-          <h3 className="mb-10 text-center font-serif text-3xl font-bold text-[var(--color-navy)]">
-            Your Contribution, Their Hope
-          </h3>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {[
-              { amount: "$10", desc: "Screen 1 Life" },
-              { amount: "$10,000", desc: "Screen 1,000 Lives" },
-              { amount: "$25,000", desc: "Support 10 Camps" },
-              { amount: "$50,000", desc: "HPV Vaccine for 5,000 Girls" },
-              { amount: "$250,000", desc: "Global Cancer Run" },
-            ].map((tier, i) => (
+        {/* Achievements as a clean list */}
+        <div className="mx-auto max-w-3xl">
+          <div className="divide-y divide-gray-100">
+            {achievements.map((item, i) => (
               <div
-                key={tier.amount}
-                className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-6 text-center shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
+                key={item.title}
+                className="group flex items-start gap-4 py-5 transition-colors hover:bg-gray-50/50 sm:gap-6 sm:px-4"
               >
-                <div
-                  className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[var(--color-rose-primary)] to-[var(--color-yellow-accent)] opacity-0 transition-opacity group-hover:opacity-100"
-                />
-                <p className="text-2xl font-bold text-[var(--color-navy)]">
-                  {tier.amount}
-                </p>
-                <p className="mt-2 text-sm text-gray-500">{tier.desc}</p>
+                {/* Numbered marker */}
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[var(--color-rose-primary)] to-[var(--color-rose-dark)] text-sm font-bold text-white shadow-sm">
+                  {String(i + 1).padStart(2, "0")}
+                </div>
+
+                <div>
+                  <h4 className="text-base font-semibold text-[var(--color-navy)] group-hover:text-[var(--color-rose-primary)] transition-colors">
+                    {item.title}
+                  </h4>
+                  <p className="mt-1 text-sm leading-relaxed text-gray-500">
+                    {item.desc}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
@@ -114,17 +144,16 @@ export function ImpactSection() {
   );
 }
 
-function ImpactCard({
+function StatCard({
   stat,
 }: {
-  stat: (typeof stats)[number];
+  stat: (typeof quickStats)[number];
 }) {
   const { count, ref } = useCountUp(stat.value);
 
   return (
     <div ref={ref} className="rounded-2xl border border-gray-100 bg-white p-6 text-center shadow-sm">
       <p className="text-3xl font-bold lg:text-4xl" style={{ color: stat.color }}>
-        {stat.prefix}
         {formatNumber(count)}
         {stat.suffix}
       </p>
