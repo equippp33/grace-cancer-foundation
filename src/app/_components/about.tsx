@@ -120,7 +120,7 @@ export function AboutSection() {
               {/* Feb 18, 2026 — NSE SSE Registration (completed) */}
               <div className="flex items-start gap-3">
                 <span className="shrink-0 rounded-lg bg-[var(--color-navy)] px-3 py-1 text-xs font-bold text-white">
-                  Feb '26
+                  Feb &apos;26
                 </span>
                 <p className="text-sm text-gray-600">
                   Registration of Grace Cancer Foundation on NSE Social Stock Exchange
