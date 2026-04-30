@@ -74,7 +74,7 @@ export function AboutSection() {
             <div className="space-y-4">
               <FounderCard
                 name="Shri. B L Sujatha Rao"
-                role="Retired IGP"
+                role="Retired IPS"
                 initial="B"
                 color="var(--color-rose-primary)"
               />
@@ -117,6 +117,15 @@ export function AboutSection() {
                   <p className="text-sm text-gray-600">{item.text}</p>
                 </div>
               ))}
+              {/* Feb 18, 2026 — NSE SSE Registration (completed) */}
+              <div className="flex items-start gap-3">
+                <span className="shrink-0 rounded-lg bg-[var(--color-navy)] px-3 py-1 text-xs font-bold text-white">
+                  Feb '26
+                </span>
+                <p className="text-sm text-gray-600">
+                  Registration of Grace Cancer Foundation on NSE Social Stock Exchange
+                </p>
+              </div>
               {/* 2026 — SSE Listing (in progress) */}
               <div className="flex items-start gap-3">
                 <span className="relative shrink-0 overflow-hidden rounded-lg bg-gradient-to-r from-[var(--color-rose-primary)] to-[var(--color-rose-dark)] px-3 py-1 text-xs font-bold text-white">
@@ -127,11 +136,9 @@ export function AboutSection() {
                   <p className="text-sm font-semibold text-[var(--color-rose-primary)]">
                     Listing on Social Stock Exchange (SSE)
                   </p>
-                  <span className="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-700">
-                    <span className="relative flex h-1.5 w-1.5">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500 opacity-75" />
-                      <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-amber-500" />
-                    </span>
+                  <span className="relative inline-flex items-center gap-1.5 overflow-hidden rounded-full border border-amber-300 bg-amber-50 px-2.5 py-0.5 text-[10px] font-semibold text-amber-700">
+                    <span className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-amber-100/80 to-transparent" />
+                    <span className="h-3 w-3 animate-spin rounded-full border-2 border-amber-200 border-t-amber-500" />
                     In Progress
                   </span>
                 </div>

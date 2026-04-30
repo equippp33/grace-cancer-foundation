@@ -82,7 +82,7 @@ The foundation evolved from an NGO to a social enterprise, gaining 12A and 80G t
 - Implemented HPV vaccination and tribal cancer screening programs
 
 ### Founders
-- **Shri. B L Sujatha Rao** – Retired IGP
+- **Shri. B L Sujatha Rao** – Retired IPS
 - **Dr. Chinnababu Sunkavalli** – Clinical Director, Robotic Surgical Oncologist
 - **Dr. Prameela Rani Sunkavalli** – Practicing Dentist, Management Representative
 
