@@ -74,7 +74,7 @@ export function AboutSection() {
             <div className="space-y-4">
               <FounderCard
                 name="Shri. B L Sujatha Rao"
-                role="Retired IPS"
+                role="IPS, retired IGP"
                 initial="B"
                 color="var(--color-rose-primary)"
               />

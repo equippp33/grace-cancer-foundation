@@ -3,16 +3,15 @@
  * for Docker builds.
  */
 import "./src/env.js";
-
-import path from "path";
 import { fileURLToPath } from "url";
+import path from "path";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /** @type {import("next").NextConfig} */
 const config = {
   output: "standalone",
-  outputFileTracingRoot: path.join(__dirname, "../../"),
+  outputFileTracingRoot: __dirname,
 };
 
 export default config;
