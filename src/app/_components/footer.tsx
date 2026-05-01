@@ -31,14 +31,16 @@ export function Footer() {
             </h4>
             <ul className="space-y-2.5">
               {[
-                { label: "About", href: "#about" },
-                { label: "Our Activities", href: "#activities" },
-                { label: "Impact", href: "#impact" },
-                { label: "Express Now", href: "/express" },
+                { label: "About", href: "#about", external: false },
+                { label: "Our Activities", href: "#activities", external: false },
+                { label: "Impact", href: "#impact", external: false },
+                { label: "Express Now", href: "/express", external: false },
+                { label: "Grace Cancer Run (YouTube)", href: "https://www.youtube.com/watch?v=8He3GWyIofg", external: true },
               ].map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
+                    {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                     className="text-sm text-gray-400 transition-colors hover:text-[var(--color-rose-primary)]"
                   >
                     {link.label}

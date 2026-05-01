@@ -50,6 +50,7 @@ const achievements = [
   {
     title: "Guinness World Record",
     desc: "Largest breast cancer awareness lesson — a landmark achievement in cancer education and screening",
+    link: "https://www.guinnessworldrecords.com/business-solutions/case-studies/grace-cancer-foundation",
   },
   {
     title: "Limca Book of Records 2016",
@@ -58,6 +59,7 @@ const achievements = [
   {
     title: "Largest Oral Cancer Screening 2019",
     desc: "Massive oral cancer screening campaign — 30 cases detected and treated early",
+    link: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10452422/",
   },
   {
     title: "ISO Certified Organisation",
@@ -66,14 +68,17 @@ const achievements = [
   {
     title: "Cancer Run 2018",
     desc: "4 buses, 5 continents, 10 nations — a global movement for cancer awareness",
+    link: "https://www.thehansindia.com/news/cities/hyderabad/grace-cancer-foundation-helping-hand-to-cancer-patients-celebrated-its-sixth-anniversary-588901",
   },
   {
     title: "Largest Global Cancer Run 2019",
     desc: "25,000+ participants across the globe — uniting communities against cancer",
+    link: "https://www.thehansindia.com/news/cities/hyderabad/grace-foundation-to-organise-cancer-run-549765",
   },
   {
     title: "Guinness World Records Case Study",
     desc: "Featured as an official case study by Guinness World Records for impact and scale",
+    link: "https://www.guinnessworldrecords.com/business-solutions/case-studies/grace-cancer-foundation",
   },
 ];
 
@@ -127,10 +132,25 @@ export function ImpactSection() {
                   {String(i + 1).padStart(2, "0")}
                 </div>
 
-                <div>
-                  <h4 className="text-base font-semibold text-[var(--color-navy)] group-hover:text-[var(--color-rose-primary)] transition-colors">
-                    {item.title}
-                  </h4>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <h4 className="text-base font-semibold text-[var(--color-navy)] group-hover:text-[var(--color-rose-primary)] transition-colors">
+                      {item.title}
+                    </h4>
+                    {"link" in item && (
+                      <a
+                        href={item.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="shrink-0 text-gray-400 transition-colors hover:text-[var(--color-rose-primary)]"
+                        aria-label="Learn more"
+                      >
+                        <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                        </svg>
+                      </a>
+                    )}
+                  </div>
                   <p className="mt-1 text-sm leading-relaxed text-gray-500">
                     {item.desc}
                   </p>
