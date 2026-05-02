@@ -1,7 +1,21 @@
-import { index, pgTableCreator } from "drizzle-orm/pg-core";
+import { index, pgTableCreator, uniqueIndex } from "drizzle-orm/pg-core";
 
 export const createTable = pgTableCreator(
   (name) => `grace-cancer-foundation_${name}`,
+);
+
+export const admins = createTable(
+  "admin",
+  (d) => ({
+    id: d.integer().primaryKey().generatedByDefaultAsIdentity(),
+    username: d.varchar({ length: 64 }).notNull(),
+    passwordHash: d.varchar({ length: 256 }).notNull(),
+    createdAt: d
+      .timestamp({ withTimezone: true })
+      .$defaultFn(() => new Date())
+      .notNull(),
+  }),
+  (t) => [uniqueIndex("admin_username_idx").on(t.username)],
 );
 
 export const expressions = createTable(

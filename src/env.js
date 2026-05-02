@@ -11,6 +11,10 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
+    MTALKZ_API_KEY: z.string().min(1),
+    MTALKZ_SENDER_ID: z.string().optional(),
+    SESSION_SECRET: z.string().min(32),
+    ADMIN_PATH: z.string().min(8),
   },
 
   /**
@@ -29,6 +33,10 @@ export const env = createEnv({
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
+    MTALKZ_API_KEY: process.env.MTALKZ_API_KEY,
+    MTALKZ_SENDER_ID: process.env.MTALKZ_SENDER_ID,
+    SESSION_SECRET: process.env.SESSION_SECRET,
+    ADMIN_PATH: process.env.ADMIN_PATH,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**

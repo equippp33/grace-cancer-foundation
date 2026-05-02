@@ -3,6 +3,7 @@ import { desc } from "drizzle-orm";
 
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { expressions } from "@/server/db/schema";
+import { sendSms } from "@/server/sms";
 
 export const expressionRouter = createTRPCRouter({
   create: publicProcedure
@@ -24,6 +25,18 @@ export const expressionRouter = createTRPCRouter({
         phone: input.phone,
         amount: input.amount,
       });
+
+      const formattedAmount = new Intl.NumberFormat("en-IN", {
+        style: "currency",
+        currency: "INR",
+        maximumFractionDigits: 0,
+      }).format(input.amount);
+
+      void sendSms(
+        input.phone,
+        `Dear ${input.name}, we have received your expression of support of ${formattedAmount} for Grace Cancer Foundation. Thank you for standing with us! - Grace Cancer Foundation`,
+      );
+
       return { success: true };
     }),
 
