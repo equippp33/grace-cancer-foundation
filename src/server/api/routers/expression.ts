@@ -26,15 +26,9 @@ export const expressionRouter = createTRPCRouter({
         amount: input.amount,
       });
 
-      const formattedAmount = new Intl.NumberFormat("en-IN", {
-        style: "currency",
-        currency: "INR",
-        maximumFractionDigits: 0,
-      }).format(input.amount);
-
       void sendSms(
         input.phone,
-        `Dear ${input.name}, we have received your expression of support of ${formattedAmount} for Grace Cancer Foundation. Thank you for standing with us! - Grace Cancer Foundation`,
+        `Dear ${input.name}, we have received your expression of support of Rs. ${input.amount} for Grace Cancer Foundation. We will reach out to you when the SSE issue opens.\nThank you for standing with us!\nGrace Cancer Foundation. -EQUIPPP`,
       );
 
       return { success: true };
