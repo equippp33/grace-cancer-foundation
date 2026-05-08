@@ -10,7 +10,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /** @type {import("next").NextConfig} */
 const config = {
-  output: "standalone",
+  // output: "standalone",
   outputFileTracingRoot: __dirname,
 };
 
