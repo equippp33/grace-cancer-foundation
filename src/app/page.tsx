@@ -1,5 +1,7 @@
 import { HydrateClient } from "@/trpc/server";
 import { Navbar } from "./_components/navbar";
+
+export const dynamic = "force-dynamic";
 import { HeroSection } from "./_components/hero";
 import { AboutSection } from "./_components/about";
 import { ActivitiesSection } from "./_components/activities";

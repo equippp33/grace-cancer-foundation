@@ -12,6 +12,8 @@ import { DashboardClient } from "./_components/dashboard-client";
 
 export const metadata: Metadata = { title: "Admin Dashboard — GCF" };
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminPage() {
   const session = await getSession();
   if (!session.isLoggedIn) redirect(`/${env.ADMIN_PATH}/login`);

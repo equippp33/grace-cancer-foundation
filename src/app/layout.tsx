@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 
 import { type Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import localFont from "next/font/local";
 
 import { TRPCReactProvider } from "@/trpc/react";
 
@@ -12,14 +12,18 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-const inter = Inter({
-  subsets: ["latin"],
+const inter = localFont({
+  src: "../../public/fonts/Inter-Variable.woff2",
   variable: "--font-inter",
+  display: "swap",
+  weight: "100 900",
 });
 
-const playfair = Playfair_Display({
-  subsets: ["latin"],
+const playfair = localFont({
+  src: "../../public/fonts/PlayfairDisplay-Variable.woff2",
   variable: "--font-playfair",
+  display: "swap",
+  weight: "400 900",
 });
 
 export default function RootLayout({
