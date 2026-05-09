@@ -23,6 +23,10 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# Force production NODE_ENV during build — Coolify may inject development
+# which makes Next.js use a dev-mode pages-router fallback for /404 that
+# triggers the misleading "<Html> should not be imported" error.
+ENV NODE_ENV=production
 # Skip env validation at build time — DATABASE_URL is injected at runtime
 ENV SKIP_ENV_VALIDATION=1
 ENV NEXT_TELEMETRY_DISABLED=1
