@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { desc } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { expressions } from "@/server/db/schema";
@@ -46,4 +46,37 @@ export const expressionRouter = createTRPCRouter({
       .orderBy(desc(expressions.createdAt))
       .limit(50);
   }),
+
+  update: publicProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        name: z.string().min(1, "Name is required"),
+        email: z.string().email("Invalid email"),
+        phone: z.string().min(10, "Invalid phone number"),
+        amount: z
+          .number()
+          .min(10000, "Minimum amount is ₹10,000")
+          .refine((v) => v % 10000 === 0, "Amount must be a multiple of ₹10,000"),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db
+        .update(expressions)
+        .set({
+          name: input.name,
+          email: input.email,
+          phone: input.phone,
+          amount: input.amount,
+        })
+        .where(eq(expressions.id, input.id));
+      return { success: true };
+    }),
+
+  delete: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.delete(expressions).where(eq(expressions.id, input.id));
+      return { success: true };
+    }),
 });
