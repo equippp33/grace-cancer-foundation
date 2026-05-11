@@ -217,7 +217,7 @@ export default function ExpressPage() {
                     required
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    placeholder="+91 9000011223"
+                    placeholder="9000011223"
                     className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-[var(--color-navy)] placeholder-gray-400 transition-all focus:border-[var(--color-rose-primary)] focus:bg-white focus:ring-2 focus:ring-[var(--color-rose-primary)]/10 focus:outline-none"
                   />
                 </div>
