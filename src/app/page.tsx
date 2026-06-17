@@ -1,5 +1,6 @@
 import { HydrateClient } from "@/trpc/server";
 import { Navbar } from "./_components/navbar";
+import { AnnouncementToast } from "./_components/announcement-toast";
 
 export const dynamic = "force-dynamic";
 import { HeroSection } from "./_components/hero";
@@ -20,6 +21,7 @@ export default function Home() {
         <ImpactSection />
         <TestimonialsSection />
         <Footer />
+        <AnnouncementToast />
       </main>
     </HydrateClient>
   );

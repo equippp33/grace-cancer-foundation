@@ -10,6 +10,7 @@ export default function ExpressPage() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [amount, setAmount] = useState("");
+  const [organisation, setOrganisation] = useState("");
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
   const [chatOpen, setChatOpen] = useState(true);
@@ -37,6 +38,7 @@ export default function ExpressPage() {
       setAmount("");
       setError("");
       void utils.expression.getAll.invalidate();
+      setOrganisation("");
       setTimeout(() => setSuccess(false), 4000);
     },
   });
@@ -93,15 +95,11 @@ export default function ExpressPage() {
     e.preventDefault();
     setError("");
     const parsed = parseInt(amount);
-    if (!parsed || parsed < 10000) {
-      setError("Minimum amount is ₹10,000");
+    if (!parsed || parsed < 1000) {
+      setError("Minimum amount is ₹1,000");
       return;
     }
-    if (parsed % 10000 !== 0) {
-      setError("Amount must be a multiple of ₹10,000");
-      return;
-    }
-    createExpression.mutate({ name, email, phone, amount: parsed });
+    createExpression.mutate({ name, email, phone, amount: parsed, organisation: organisation || undefined });
   };
 
   const formatCurrency = (n: number) =>
@@ -181,7 +179,7 @@ export default function ExpressPage() {
               {/* Name */}
               <div>
                 <label className="mb-1.5 block text-xs font-medium tracking-wide text-gray-500 uppercase">
-                  Full Name
+                  Full Name <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -197,7 +195,7 @@ export default function ExpressPage() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label className="mb-1.5 block text-xs font-medium tracking-wide text-gray-500 uppercase">
-                    Email
+                    Email <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="email"
@@ -210,7 +208,7 @@ export default function ExpressPage() {
                 </div>
                 <div>
                   <label className="mb-1.5 block text-xs font-medium tracking-wide text-gray-500 uppercase">
-                    Phone
+                    Phone <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="tel"
@@ -223,10 +221,24 @@ export default function ExpressPage() {
                 </div>
               </div>
 
+              {/* Organisation */}
+              <div>
+                <label className="mb-1.5 block text-xs font-medium tracking-wide text-gray-500 uppercase">
+                  Organisation
+                </label>
+                <input
+                  type="text"
+                  value={organisation}
+                  onChange={(e) => setOrganisation(e.target.value)}
+                  placeholder="Company / Organisation (optional)"
+                  className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-[var(--color-navy)] placeholder-gray-400 transition-all focus:border-[var(--color-rose-primary)] focus:bg-white focus:ring-2 focus:ring-[var(--color-rose-primary)]/10 focus:outline-none"
+                />
+              </div>
+
               {/* Amount */}
               <div>
                 <label className="mb-1.5 block text-xs font-medium tracking-wide text-gray-500 uppercase">
-                  Amount (in multiples of ₹10,000)
+                  Amount (minimum ₹1,000) <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
                   <span className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-sm font-semibold text-gray-400">
@@ -235,14 +247,14 @@ export default function ExpressPage() {
                   <input
                     type="number"
                     required
-                    min={10000}
-                    step={10000}
+                    min={1000}
+                    step={1}
                     value={amount}
                     onChange={(e) => {
                       setAmount(e.target.value);
                       setError("");
                     }}
-                    placeholder="10000"
+                    placeholder="1000"
                     className="w-full rounded-xl border border-gray-200 bg-gray-50 py-3 pr-4 pl-8 text-sm text-[var(--color-navy)] placeholder-gray-400 transition-all focus:border-[var(--color-rose-primary)] focus:bg-white focus:ring-2 focus:ring-[var(--color-rose-primary)]/10 focus:outline-none"
                   />
                 </div>

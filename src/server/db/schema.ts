@@ -26,6 +26,7 @@ export const expressions = createTable(
     email: d.varchar({ length: 256 }).notNull(),
     phone: d.varchar({ length: 20 }).notNull(),
     amount: d.integer().notNull(),
+    organisation: d.varchar({ length: 256 }),
     createdAt: d
       .timestamp({ withTimezone: true })
       .$defaultFn(() => new Date())

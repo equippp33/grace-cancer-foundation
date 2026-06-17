@@ -4,6 +4,7 @@ import { desc, eq } from "drizzle-orm";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { expressions } from "@/server/db/schema";
 import { sendSms } from "@/server/sms";
+import { sendExpressionEmail } from "@/server/email";
 
 export const expressionRouter = createTRPCRouter({
   create: publicProcedure
@@ -12,10 +13,8 @@ export const expressionRouter = createTRPCRouter({
         name: z.string().min(1, "Name is required"),
         email: z.string().email("Invalid email"),
         phone: z.string().min(10, "Invalid phone number"),
-        amount: z
-          .number()
-          .min(10000, "Minimum amount is ₹10,000")
-          .refine((v) => v % 10000 === 0, "Amount must be a multiple of ₹10,000"),
+        amount: z.number().min(1000, "Minimum amount is ₹1,000"),
+        organisation: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -24,12 +23,19 @@ export const expressionRouter = createTRPCRouter({
         email: input.email,
         phone: input.phone,
         amount: input.amount,
+        organisation: input.organisation ?? null,
       });
 
       void sendSms(
         input.phone,
         `Dear ${input.name}, we have received your expression of support of Rs. ${input.amount} for Grace Cancer Foundation. We will reach out to you when the SSE issue opens.\nThank you for standing with us!\nGrace Cancer Foundation. -EQUIPPP`,
       );
+
+      void sendExpressionEmail({
+        to: input.email,
+        name: input.name,
+        amount: input.amount,
+      }).catch((err) => console.error("[Email] Failed to send expression email:", err));
 
       return { success: true };
     }),
@@ -54,10 +60,7 @@ export const expressionRouter = createTRPCRouter({
         name: z.string().min(1, "Name is required"),
         email: z.string().email("Invalid email"),
         phone: z.string().min(10, "Invalid phone number"),
-        amount: z
-          .number()
-          .min(10000, "Minimum amount is ₹10,000")
-          .refine((v) => v % 10000 === 0, "Amount must be a multiple of ₹10,000"),
+        amount: z.number().min(1000, "Minimum amount is ₹1,000"),
       }),
     )
     .mutation(async ({ ctx, input }) => {

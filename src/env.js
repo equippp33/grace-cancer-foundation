@@ -16,6 +16,9 @@ export const env = createEnv({
     MTALKZ_TEMPLATE_ID: z.string().optional(),
     SESSION_SECRET: z.string().min(32),
     ADMIN_PATH: z.string().min(8),
+    SES_USER: z.string().min(1),
+    SES_PASSWORD: z.string().min(1),
+    SENDER_EMAIL: z.string().email(),
   },
 
   /**
@@ -39,6 +42,9 @@ export const env = createEnv({
     MTALKZ_TEMPLATE_ID: process.env.MTALKZ_TEMPLATE_ID,
     SESSION_SECRET: process.env.SESSION_SECRET,
     ADMIN_PATH: process.env.ADMIN_PATH,
+    SES_USER: process.env.SES_USER,
+    SES_PASSWORD: process.env.SES_PASSWORD,
+    SENDER_EMAIL: process.env.SENDER_EMAIL,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**
