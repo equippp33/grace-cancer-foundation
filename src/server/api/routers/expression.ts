@@ -35,6 +35,7 @@ export const expressionRouter = createTRPCRouter({
         to: input.email,
         name: input.name,
         amount: input.amount,
+        organisation: input.organisation,
       }).catch((err) => console.error("[Email] Failed to send expression email:", err));
 
       return { success: true };
