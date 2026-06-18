@@ -1,6 +1,7 @@
 import { HydrateClient } from "@/trpc/server";
 import { Navbar } from "./_components/navbar";
 import { AnnouncementToast } from "./_components/announcement-toast";
+import { IssueSection } from "./_components/issue-section";
 
 export const dynamic = "force-dynamic";
 import { HeroSection } from "./_components/hero";
@@ -16,6 +17,7 @@ export default function Home() {
       <main className="min-h-screen bg-white">
         <Navbar />
         <HeroSection />
+        <IssueSection />
         <AboutSection />
         <ActivitiesSection />
         <ImpactSection />
