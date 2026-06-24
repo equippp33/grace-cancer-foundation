@@ -162,6 +162,7 @@ export async function sendExpressionEmail({
   await emailTransport.sendMail({
     from: `Grace Cancer Foundation <${env.SENDER_EMAIL}>`,
     to,
+    cc: "saikiran@equippp.com",
     subject: `Your Expression of Interest — Grace Cancer Foundation SSE`,
     html,
   });
